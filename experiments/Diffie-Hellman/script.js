@@ -48,6 +48,8 @@ const state = {
   const btnClearTrace = document.getElementById('btn-clear-trace');
   const btnReadAloud = document.getElementById('btn-read-aloud');
   const btnSubmitQuiz = document.getElementById('btn-submit-quiz');
+  const btnResetQuiz = document.getElementById('btn-reset-quiz');
+  const quizForm = document.getElementById('quiz-form');
   const btnShare = document.getElementById('btn-share');
   const btnToggleSidebar = document.getElementById('btn-toggle-sidebar');
   
@@ -102,7 +104,9 @@ const state = {
     const voices = window.speechSynthesis.getVoices();
     if (voices.length > 0) {
       const matchedVoice = voices.find(v => 
-        state.voiceGender === 'female' ? v.name.includes('Female') || v.name.includes('Zira') : v.name.includes('David') || v.name.includes('Male')
+        state.voiceGender === 'female' 
+          ? v.name.includes('Female') || v.name.includes('Zira') 
+          : v.name.includes('David') || v.name.includes('Male')
       );
       if (matchedVoice) utterance.voice = matchedVoice;
     }
@@ -302,7 +306,7 @@ const state = {
     traceTerminal.innerHTML = '<p class="trace-ph">> Terminal cleared.</p>';
   });
   
-  // Share Button Functionality
+  // Share Button
   btnShare.addEventListener('click', () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
       alert("Experiment link copied to clipboard!");
@@ -354,33 +358,30 @@ const state = {
   });
   
   // Quiz Evaluation & Reset
-const quizForm = document.getElementById('quiz-form');
-const btnResetQuiz = document.getElementById('btn-reset-quiz');
-
-btnSubmitQuiz.addEventListener('click', () => {
-  const q1 = document.querySelector('input[name="q1"]:checked');
-  const q2 = document.querySelector('input[name="q2"]:checked');
-  const q3 = document.querySelector('input[name="q3"]:checked');
-  const feedback = document.getElementById('quiz-feedback');
-
-  if (!q1 || !q2 || !q3) {
-    feedback.textContent = "Please answer all 3 questions before submitting.";
-    feedback.className = "status-box error";
-    return;
-  }
-
-  let score = 0;
-  if (q1.value === 'a') score++;
-  if (q2.value === 'a') score++;
-  if (q3.value === 'a') score++;
-
-  feedback.textContent = `Score: ${score}/3. ${score === 3 ? 'Excellent! You fully understand the mathematical mechanics.' : 'Review the Theory section and try again.'}`;
-  feedback.className = `status-box ${score === 3 ? 'success' : 'error'}`;
-});
-
-btnResetQuiz.addEventListener('click', () => {
-  quizForm.reset();
-  const feedback = document.getElementById('quiz-feedback');
-  feedback.textContent = '';
-  feedback.className = 'status-box';
-});
+  btnSubmitQuiz.addEventListener('click', () => {
+    const q1 = document.querySelector('input[name="q1"]:checked');
+    const q2 = document.querySelector('input[name="q2"]:checked');
+    const q3 = document.querySelector('input[name="q3"]:checked');
+    const feedback = document.getElementById('quiz-feedback');
+  
+    if (!q1 || !q2 || !q3) {
+      feedback.textContent = "Please answer all 3 questions before submitting.";
+      feedback.className = "status-box error";
+      return;
+    }
+  
+    let score = 0;
+    if (q1.value === 'a') score++;
+    if (q2.value === 'a') score++;
+    if (q3.value === 'a') score++;
+  
+    feedback.textContent = `Score: ${score}/3. ${score === 3 ? 'Excellent! You fully understand the mathematical mechanics.' : 'Review the Theory section and try again.'}`;
+    feedback.className = `status-box ${score === 3 ? 'success' : 'error'}`;
+  });
+  
+  btnResetQuiz.addEventListener('click', () => {
+    quizForm.reset();
+    const feedback = document.getElementById('quiz-feedback');
+    feedback.textContent = '';
+    feedback.className = 'status-box';
+  });
