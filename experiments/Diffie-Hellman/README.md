@@ -1,5 +1,5 @@
 Group: Diffie-Hellman
-Experiment ID: EXP14
+Experiment ID: EXP04
 Experiment Name: Diffie–Hellman Key Exchange Simulation
 Folder: /experiments/Diffie-Hellman/
 Entry File: index.html

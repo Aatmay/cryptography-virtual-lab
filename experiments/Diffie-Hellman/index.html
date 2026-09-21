@@ -13,7 +13,7 @@
       <button class="round-nav-btn" title="Back" onclick="history.back()">←</button>
       <div class="manual-titles">
         <h1>Computer Science Lab Manual</h1>
-        <p class="breadcrumbs">• Cryptography & System Security • Diffie–Hellman Key Exchange</p>
+        <p class="breadcrumbs">• Cryptography &amp; System Security • Diffie–Hellman Key Exchange</p>
       </div>
     </div>
     <button class="share-btn" id="btn-share">🔗 Share</button>
@@ -21,7 +21,79 @@
 
   <!-- Main Laboratory Workspace -->
   <div class="workspace-layout">
-    <!-- Left Column: Experiment Content & Interactive Simulation -->
+
+    <!-- LEFT COLUMN: Navigation Sidebar -->
+    <aside class="sidebar-resources" id="sidebar-panel">
+      <div class="filter-pill-bar">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="interactive">Interactive</button>
+        <button class="filter-pill" data-filter="text">Theory</button>
+      </div>
+
+      <div class="resources-group">
+        <div class="resources-header">
+          <span>CURRENT EXPERIMENT</span>
+        </div>
+
+        <div class="resource-cards-list">
+          <!-- 1. Aim & Objectives -->
+          <div class="resource-card active" data-target="section-aim" data-category="text">
+            <div class="res-icon">🎯</div>
+            <div class="res-info">
+              <h5>Aim &amp; Objectives</h5>
+              <small>Goals &amp; Outcomes</small>
+            </div>
+          </div>
+
+          <!-- 2. Theory & Formulas -->
+          <div class="resource-card" data-target="section-theory" data-category="text">
+            <div class="res-icon">📖</div>
+            <div class="res-info">
+              <h5>Theory &amp; Formulas</h5>
+              <small>Alice/Bob Flow &amp; Proof</small>
+            </div>
+          </div>
+
+          <!-- 3. Procedure -->
+          <div class="resource-card" data-target="section-procedure" data-category="text">
+            <div class="res-icon">📋</div>
+            <div class="res-info">
+              <h5>Procedure</h5>
+              <small>Step-by-step protocol</small>
+            </div>
+          </div>
+
+          <!-- 4. Interactive Simulation -->
+          <div class="resource-card" data-target="section-simulation" data-category="interactive">
+            <div class="res-icon">💻</div>
+            <div class="res-info">
+              <h5>Interactive Simulation</h5>
+              <small>Live key exchange canvas</small>
+            </div>
+          </div>
+
+          <!-- 5. Test Your Understanding -->
+          <div class="resource-card" data-target="section-quiz" data-category="interactive">
+            <div class="res-icon">✍️</div>
+            <div class="res-info">
+              <h5>Test Your Understanding</h5>
+              <small>5 Advanced Theory Questions</small>
+            </div>
+          </div>
+
+          <!-- 6. References -->
+          <div class="resource-card" data-target="section-references" data-category="text">
+            <div class="res-icon">📚</div>
+            <div class="res-info">
+              <h5>References</h5>
+              <small>IETF RFCs &amp; Papers</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- RIGHT COLUMN: Experiment Content Display -->
     <main class="lab-main-view">
       <!-- Media & Accessibility Control Bar -->
       <div class="media-toolbar">
@@ -54,8 +126,119 @@
         </div>
       </div>
 
-      <!-- Tab Content 1: Simulation (Default) -->
-      <section id="section-simulation" class="content-section active">
+      <!-- 1. TAB CONTENT: AIM & OBJECTIVES -->
+      <section id="section-aim" class="content-section active">
+        <div class="content-card">
+          <h2>🎯 Experiment Aim</h2>
+          <p style="margin-top: 0.5rem; line-height: 1.6;">
+            To demonstrate and verify the Diffie–Hellman Key Exchange algorithm by allowing two parties (Alice and Bob) to securely establish a shared symmetric cryptographic key over an unencrypted, public communication channel without transmitting the key itself.
+          </p>
+          <hr style="margin: 1.25rem 0;">
+          <h2>📋 Learning Objectives</h2>
+          <ul class="styled-list" style="margin-top: 0.75rem; line-height: 1.8;">
+            <li>Understand the role of asymmetric one-way mathematical functions in secure symmetric key agreement.</li>
+            <li>Apply modular exponentiation using public domain parameters: prime modulus (<strong>P</strong>) and generator primitive root (<strong>G</strong>).</li>
+            <li>Simulate the computation of private-to-public key pairs: <code>x = G^a mod P</code> and <code>y = G^b mod P</code>.</li>
+            <li>Trace transmission across an eavesdropped public network and verify why an observer cannot compute the private keys or shared secret due to the <strong>Discrete Logarithm Problem (DLP)</strong>.</li>
+            <li>Mathematically prove and confirm key agreement equivalence: <code>k_a = k_b = G^(a·b) mod P</code>.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 2. TAB CONTENT: THEORY & FORMULAS -->
+      <section id="section-theory" class="content-section">
+        <div class="content-card">
+          <h2>Theoretical Background: Diffie–Hellman Protocol</h2>
+          <p>Diffie–Hellman key exchange is an asymmetric cryptographic mechanism developed by Whitfield Diffie and Martin Hellman in 1976. It provides a means for two communicative entities to establish a shared symmetric cryptographic key over an unencrypted communication channel.</p>
+          <hr>
+          <h3>1. Protocol Flow Table</h3>
+          <div class="table-responsive">
+            <table class="manual-table">
+              <thead>
+                <tr>
+                  <th style="width: 50%;">Alice</th>
+                  <th style="width: 50%;">Bob</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Public Keys available = P, G</td>
+                  <td>Public Keys available = P, G</td>
+                </tr>
+                <tr>
+                  <td>Private Key Selected = a</td>
+                  <td>Private Key Selected = b</td>
+                </tr>
+                <tr>
+                  <td>Key generated =<br><strong>x = G<sup>a</sup> mod P</strong></td>
+                  <td>Key generated =<br><strong>y = G<sup>b</sup> mod P</strong></td>
+                </tr>
+                <tr class="highlight-row">
+                  <td colspan="2" style="text-align: center;">Exchange of generated keys takes place</td>
+                </tr>
+                <tr>
+                  <td>Key received = y</td>
+                  <td>Key received = x</td>
+                </tr>
+                <tr>
+                  <td>Generated Secret Key =<br><strong>k<sub>a</sub> = y<sup>a</sup> mod P</strong></td>
+                  <td>Generated Secret Key =<br><strong>k<sub>b</sub> = x<sup>b</sup> mod P</strong></td>
+                </tr>
+                <tr class="highlight-row">
+                  <td colspan="2" style="text-align: center;">
+                    Algebraically, it can be shown that<br>
+                    <strong style="font-size: 1.1rem; color: #b45309;">k<sub>a</sub> = k<sub>b</sub></strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <hr>
+          <h3>2. Mathematical Proof of Equivalence</h3>
+          <p>Both parties arrive at the identical secret key because of modular exponentiation power laws:</p>
+
+          <div class="proof-card">
+            <div class="proof-line">
+              <span class="proof-actor">Alice computes:</span>
+              <span class="proof-math">
+                <strong>k<sub>a</sub></strong> = (y)<sup>a</sup> mod P = (G<sup>b</sup>)<sup>a</sup> mod P = <mark>G<sup>a · b</sup> mod P</mark>
+              </span>
+            </div>
+
+            <div class="proof-divider"></div>
+
+            <div class="proof-line">
+              <span class="proof-actor">Bob computes:</span>
+              <span class="proof-math">
+                <strong>k<sub>b</sub></strong> = (x)<sup>b</sup> mod P = (G<sup>a</sup>)<sup>b</sup> mod P = <mark>G<sup>a · b</sup> mod P</mark>
+              </span>
+            </div>
+
+            <div class="proof-conclusion">
+              Since both expressions evaluate to <strong>G<sup>a · b</sup> mod P</strong>, it follows that:
+              <div class="proof-final-badge">k<sub>a</sub> = k<sub>b</sub></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. TAB CONTENT: PROCEDURE -->
+      <section id="section-procedure" class="content-section">
+        <div class="content-card">
+          <h2>Laboratory Procedure</h2>
+          <ol class="styled-list">
+            <li><strong>Parameter Agreement:</strong> Both endpoints agree upon global public parameters: prime modulus <strong>P</strong> and primitive root <strong>G</strong>.</li>
+            <li><strong>Private Key Selection:</strong> Alice chooses private integer <strong>a</strong> (where a &lt; P). Bob chooses private integer <strong>b</strong> (where b &lt; P).</li>
+            <li><strong>Public Key Generation:</strong> Alice computes <strong>x = G<sup>a</sup> mod P</strong>. Bob computes <strong>y = G<sup>b</sup> mod P</strong>.</li>
+            <li><strong>Key Exchange:</strong> Alice and Bob send their generated keys <strong>x</strong> and <strong>y</strong> over the insecure channel. Alice receives <strong>y</strong>, and Bob receives <strong>x</strong>.</li>
+            <li><strong>Secret Key Derivation:</strong> Alice calculates <strong>k<sub>a</sub> = y<sup>a</sup> mod P</strong>. Bob calculates <strong>k<sub>b</sub> = x<sup>b</sup> mod P</strong>. Verify that <strong>k<sub>a</sub> = k<sub>b</sub></strong>.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 4. TAB CONTENT: INTERACTIVE SIMULATION -->
+      <section id="section-simulation" class="content-section">
         <div class="section-title-box">
           <h2>Diffie–Hellman Key Exchange Interactive Simulation</h2>
           <p>Demonstrate secure key establishment over an insecure public channel using modular exponentiation.</p>
@@ -186,124 +369,51 @@
         </div>
       </section>
 
-      <!-- Tab Content 2: Theory -->
-      <section id="section-theory" class="content-section">
-        <div class="content-card">
-          <h2>Theoretical Background: Diffie–Hellman Protocol</h2>
-          <p>Diffie–Hellman key exchange is an asymmetric cryptographic mechanism developed by Whitfield Diffie and Martin Hellman in 1976. It provides a means for two communicative entities to establish a shared symmetric cryptographic key over an unencrypted communication channel.</p>
-          <hr>
-          <h3>1. Protocol Flow Table</h3>
-          <div class="table-responsive">
-            <table class="manual-table">
-              <thead>
-                <tr>
-                  <th style="width: 50%;">Alice</th>
-                  <th style="width: 50%;">Bob</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Public Keys available = P, G</td>
-                  <td>Public Keys available = P, G</td>
-                </tr>
-                <tr>
-                  <td>Private Key Selected = a</td>
-                  <td>Private Key Selected = b</td>
-                </tr>
-                <tr>
-                  <td>Key generated =<br><strong>x = G<sup>a</sup> mod P</strong></td>
-                  <td>Key generated =<br><strong>y = G<sup>b</sup> mod P</strong></td>
-                </tr>
-                <tr class="highlight-row">
-                  <td colspan="2" style="text-align: center;">Exchange of generated keys takes place</td>
-                </tr>
-                <tr>
-                  <td>Key received = y</td>
-                  <td>Key received = x</td>
-                </tr>
-                <tr>
-                  <td>Generated Secret Key =<br><strong>k<sub>a</sub> = y<sup>a</sup> mod P</strong></td>
-                  <td>Generated Secret Key =<br><strong>k<sub>b</sub> = x<sup>b</sup> mod P</strong></td>
-                </tr>
-                <tr class="highlight-row">
-                  <td colspan="2" style="text-align: center;">
-                    Algebraically, it can be shown that<br>
-                    <strong style="font-size: 1.1rem; color: #b45309;">k<sub>a</sub> = k<sub>b</sub></strong>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <hr>
-          <h3>2. Mathematical Proof of Equivalence</h3>
-          <p>Both parties arrive at the identical secret key because of modular exponentiation power laws:</p>
-
-          <div class="proof-card">
-            <div class="proof-line">
-              <span class="proof-actor">Alice computes:</span>
-              <span class="proof-math">
-                <strong>k<sub>a</sub></strong> = (y)<sup>a</sup> mod P = (G<sup>b</sup>)<sup>a</sup> mod P = <mark>G<sup>a · b</sup> mod P</mark>
-              </span>
-            </div>
-
-            <div class="proof-divider"></div>
-
-            <div class="proof-line">
-              <span class="proof-actor">Bob computes:</span>
-              <span class="proof-math">
-                <strong>k<sub>b</sub></strong> = (x)<sup>b</sup> mod P = (G<sup>a</sup>)<sup>b</sup> mod P = <mark>G<sup>a · b</sup> mod P</mark>
-              </span>
-            </div>
-
-            <div class="proof-conclusion">
-              Since both expressions evaluate to <strong>G<sup>a · b</sup> mod P</strong>, it follows that:
-              <div class="proof-final-badge">k<sub>a</sub> = k<sub>b</sub></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Tab Content 3: Procedure -->
-      <section id="section-procedure" class="content-section">
-        <div class="content-card">
-          <h2>Laboratory Procedure</h2>
-          <ol class="styled-list">
-            <li><strong>Parameter Agreement:</strong> Both endpoints agree upon global public parameters: prime modulus <strong>P</strong> and primitive root <strong>G</strong>.</li>
-            <li><strong>Private Key Selection:</strong> Alice chooses private integer <strong>a</strong> (where a &lt; P). Bob chooses private integer <strong>b</strong> (where b &lt; P).</li>
-            <li><strong>Public Key Generation:</strong> Alice computes <strong>x = G<sup>a</sup> mod P</strong>. Bob computes <strong>y = G<sup>b</sup> mod P</strong>.</li>
-            <li><strong>Key Exchange:</strong> Alice and Bob send their generated keys <strong>x</strong> and <strong>y</strong> over the insecure channel. Alice receives <strong>y</strong>, and Bob receives <strong>x</strong>.</li>
-            <li><strong>Secret Key Derivation:</strong> Alice calculates <strong>k<sub>a</sub> = y<sup>a</sup> mod P</strong>. Bob calculates <strong>k<sub>b</sub> = x<sup>b</sup> mod P</strong>. Verify that <strong>k<sub>a</sub> = k<sub>b</sub></strong>.</li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- Tab Content 4: Self-Evaluation Quiz -->
+      <!-- 5. TAB CONTENT: TEST YOUR UNDERSTANDING -->
       <section id="section-quiz" class="content-section">
         <div class="content-card">
-          <h2>Self-Evaluation Quiz</h2>
-          <p class="field-hint">Answer the core theoretical questions below to test your understanding of the protocol.</p>
+          <h2>Test Your Understanding</h2>
+          <p class="field-hint">Answer the advanced conceptual and mathematical questions below to test your rigorous understanding of the protocol.</p>
           
           <form id="quiz-form">
-            <div class="quiz-item">
-              <p><strong>1. What is the primary purpose of the Diffie-Hellman algorithm?</strong></p>
-              <label><input type="radio" name="q1" value="a"> To securely agree on a shared secret key over an insecure channel</label><br>
-              <label><input type="radio" name="q1" value="b"> To encrypt long message files directly into ciphertext</label><br>
-              <label><input type="radio" name="q1" value="c"> To create digital signatures for authenticating documents</label>
+            <div class="quiz-item" style="margin-bottom: 1.25rem;">
+              <p><strong>1. On which specific mathematical hardness assumption does the fundamental security of the Diffie–Hellman key exchange rely?</strong></p>
+              <label><input type="radio" name="q1" value="a"> Integer Factorization Problem (IFP) of large composite modulus <em>n = pq</em></label><br>
+              <label><input type="radio" name="q1" value="b"> Computational Diffie–Hellman (CDH) assumption derived from the Discrete Logarithm Problem (DLP)</label><br>
+              <label><input type="radio" name="q1" value="c"> Shortest Vector Problem (SVP) in Euclidean lattice spaces</label><br>
+              <label><input type="radio" name="q1" value="d"> The existence of trapdoor one-way permutations in modular square roots</label>
             </div>
 
-            <div class="quiz-item">
-              <p><strong>2. Which parameters are kept strictly confidential and NEVER transmitted across the network?</strong></p>
-              <label><input type="radio" name="q2" value="a"> Private keys a and b</label><br>
-              <label><input type="radio" name="q2" value="b"> Public parameters P and G</label><br>
-              <label><input type="radio" name="q2" value="c"> Generated keys x and y</label>
+            <div class="quiz-item" style="margin-bottom: 1.25rem;">
+              <p><strong>2. Why must the generator <em>G</em> strictly be a primitive root modulo the prime <em>P</em>?</strong></p>
+              <label><input type="radio" name="q2" value="a"> To prevent modular overflow during repeated multiplication loops</label><br>
+              <label><input type="radio" name="q2" value="b"> To guarantee that the successive powers of <em>G</em> generate the full multiplicative group of order <em>P - 1</em> without collapsing into small cyclical subgroups</label><br>
+              <label><input type="radio" name="q2" value="c"> To ensure that Bob's secret key cannot be smaller than Alice's secret key</label><br>
+              <label><input type="radio" name="q2" value="d"> To force both public keys <em>x</em> and <em>y</em> to always be odd numbers</label>
             </div>
 
-            <div class="quiz-item">
-              <p><strong>3. Why do Alice and Bob arrive at the exact same secret key (k<sub>a</sub> = k<sub>b</sub>)?</strong></p>
-              <label><input type="radio" name="q3" value="a"> Because both calculations mathematically simplify to G<sup>a · b</sup> mod P</label><br>
-              <label><input type="radio" name="q3" value="b"> Because Alice and Bob must choose the same private number (a = b)</label><br>
-              <label><input type="radio" name="q3" value="c"> Because the prime modulus P cancels out all exponents</label>
+            <div class="quiz-item" style="margin-bottom: 1.25rem;">
+              <p><strong>3. If Eve captures <em>P</em>, <em>G</em>, <em>x = G<sup>a</sup> mod P</em>, and <em>y = G<sup>b</sup> mod P</em>, why can't she simply compute <em>(x · y) mod P</em> to derive the shared secret key?</strong></p>
+              <label><input type="radio" name="q3" value="a"> Because <em>(x · y) mod P &equiv; G<sup>a + b</sup> mod P</em>, which is fundamentally distinct from the shared secret <em>G<sup>a · b</sup> mod P</em></label><br>
+              <label><input type="radio" name="q3" value="b"> Because modular reduction cannot distribute over multiplication</label><br>
+              <label><input type="radio" name="q3" value="c"> Because Eve cannot know whether <em>x</em> was generated by Alice or Bob</label><br>
+              <label><input type="radio" name="q3" value="d"> Because multiplying two public remainders yields zero in a prime field</label>
+            </div>
+
+            <div class="quiz-item" style="margin-bottom: 1.25rem;">
+              <p><strong>4. If a prime modulus <em>P</em> is selected such that <em>(P - 1)</em> factors entirely into very small prime factors (smooth integer), which cryptographic attack makes solving the private keys trivial?</strong></p>
+              <label><input type="radio" name="q4" value="a"> Birthday Paradox Collision Search</label><br>
+              <label><input type="radio" name="q4" value="b"> Pohlig–Hellman Algorithm</label><br>
+              <label><input type="radio" name="q4" value="c"> Meet-in-the-Middle Cipher Block Attack</label><br>
+              <label><input type="radio" name="q4" value="d"> Bleichenbacher's Padding Oracle Attack</label>
+            </div>
+
+            <div class="quiz-item" style="margin-bottom: 1.25rem;">
+              <p><strong>5. In an active Man-in-the-Middle (MitM) attack where adversary Mallory intercepts the exchange, how many independent shared secret keys are established in total?</strong></p>
+              <label><input type="radio" name="q5" value="a"> Zero; the mathematical mismatch prevents any key generation from finishing</label><br>
+              <label><input type="radio" name="q5" value="b"> One; Mallory decrypts the single mutual key created by Alice and Bob</label><br>
+              <label><input type="radio" name="q5" value="c"> Two; Mallory establishes one secret key with Alice (<em>k<sub>AM</sub></em>) and a separate secret key with Bob (<em>k<sub>MB</sub></em>)</label><br>
+              <label><input type="radio" name="q5" value="d"> Four; one secret for each entity's public and private pair</label>
             </div>
 
             <div class="btn-cluster" style="margin-top: 14px;">
@@ -316,76 +426,19 @@
         </div>
       </section>
 
-      <!-- Tab Content 5: References -->
+      <!-- 6. TAB CONTENT: REFERENCES -->
       <section id="section-references" class="content-section">
         <div class="content-card">
-          <h2>Academic & Technical References</h2>
+          <h2>Academic &amp; Technical References</h2>
           <ul class="styled-list">
-            <li>Diffie, W., & Hellman, M. (1976). "New directions in cryptography". <em>IEEE Transactions on Information Theory</em>, 22(6), 644–654.</li>
-            <li>Stallings, W. (2017). <em>Cryptography and Network Security: Principles and Practice</em> (7th ed.). Pearson.</li>
-            <li>RFC 3526: <em>More Modular Exponential (MODP) Diffie-Hellman groups for Internet Key Exchange (IKE)</em>.</li>
+            <li>Diffie, W., &amp; Hellman, M. (1976). "New directions in cryptography". <em>IEEE Transactions on Information Theory</em>, 22(6), 644–654.[cite: 24]</li>
+            <li>Stallings, W. (2017). <em>Cryptography and Network Security: Principles and Practice</em> (7th ed.). Pearson.[cite: 24]</li>
+            <li>RFC 3526: <em>More Modular Exponential (MODP) Diffie-Hellman groups for Internet Key Exchange (IKE)</em>.[cite: 24]</li>
           </ul>
         </div>
       </section>
+
     </main>
-
-    <!-- Right Column: Explanation Resources Sidebar -->
-    <aside class="sidebar-resources" id="sidebar-panel">
-      <div class="filter-pill-bar">
-        <button class="filter-pill active" data-filter="all">All</button>
-        <button class="filter-pill" data-filter="interactive">Interactive</button>
-        <button class="filter-pill" data-filter="text">Theory</button>
-      </div>
-
-      <div class="resources-group">
-        <div class="resources-header">
-          <span>Explanation Resources</span>
-          <span class="chevron">▲</span>
-        </div>
-
-        <div class="resource-cards-list">
-          <div class="resource-card active" data-target="section-simulation" data-category="interactive">
-            <div class="res-icon">💻</div>
-            <div class="res-info">
-              <h5>Simulation - Key Exchange</h5>
-              <small>Interactive Protocol Canvas</small>
-            </div>
-          </div>
-
-          <div class="resource-card" data-target="section-theory" data-category="text">
-            <div class="res-icon">📖</div>
-            <div class="res-info">
-              <h5>Theory - Protocol Flow</h5>
-              <small>Alice/Bob Table & Proof</small>
-            </div>
-          </div>
-
-          <div class="resource-card" data-target="section-procedure" data-category="text">
-            <div class="res-icon">📋</div>
-            <div class="res-info">
-              <h5>Procedure - Lab Protocol</h5>
-              <small>Step-by-step experiment guide</small>
-            </div>
-          </div>
-
-          <div class="resource-card" data-target="section-quiz" data-category="interactive">
-            <div class="res-icon">✍️</div>
-            <div class="res-info">
-              <h5>Self-Evaluation Quiz</h5>
-              <small>3 Core Concept Questions</small>
-            </div>
-          </div>
-
-          <div class="resource-card" data-target="section-references" data-category="text">
-            <div class="res-icon">📚</div>
-            <div class="res-info">
-              <h5>References & Standards</h5>
-              <small>IETF RFCs and Research Papers</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </aside>
   </div>
 
   <script src="script.js"></script>
