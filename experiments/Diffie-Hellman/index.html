@@ -247,16 +247,16 @@
         <!-- Global Parameters Box -->
         <div class="content-card">
           <h3>1. Public Domain Parameters (Available to All: P, G)</h3>
-          <p class="field-hint">Alice and Bob openly agree on a prime number modulus (P) and primitive root generator (G).</p>
+          <p class="field-hint">Alice and Bob openly agree on a prime modulus (P) up to 16 digits and generator (G).</p>
           <div class="form-row">
             <div class="form-group">
               <label for="input-p">Prime Modulus (P):</label>
-              <input type="number" id="input-p" value="23" min="3">
-              <span class="subtext">Must be a prime integer</span>
+              <input type="text" id="input-p" value="23" pattern="[0-9]*" inputmode="numeric" placeholder="e.g. 1000000000000037">
+              <span class="subtext">Must be a prime integer (supports up to 16 digits)</span>
             </div>
             <div class="form-group">
               <label for="input-g">Primitive Root / Generator (G):</label>
-              <input type="number" id="input-g" value="5" min="2">
+              <input type="text" id="input-g" value="5" pattern="[0-9]*" inputmode="numeric" placeholder="e.g. 2">
               <span class="subtext">Primitive root mod P</span>
             </div>
             <div class="btn-cluster">
@@ -281,7 +281,7 @@
 
             <div class="form-group">
               <label for="private-a">Private Key Selected (a):</label>
-              <input type="number" id="private-a" value="6" min="1">
+              <input type="text" id="private-a" value="6" pattern="[0-9]*" inputmode="numeric">
               <small class="private-tag">🔒 Strictly Secret (Never Sent)</small>
             </div>
 
@@ -336,7 +336,7 @@
 
             <div class="form-group">
               <label for="private-b">Private Key Selected (b):</label>
-              <input type="number" id="private-b" value="15" min="1">
+              <input type="text" id="private-b" value="15" pattern="[0-9]*" inputmode="numeric">
               <small class="private-tag">🔒 Strictly Secret (Never Sent)</small>
             </div>
 
@@ -431,9 +431,9 @@
         <div class="content-card">
           <h2>Academic &amp; Technical References</h2>
           <ul class="styled-list">
-            <li>Diffie, W., &amp; Hellman, M. (1976). "New directions in cryptography". <em>IEEE Transactions on Information Theory</em>, 22(6), 644–654.[cite: 24]</li>
-            <li>Stallings, W. (2017). <em>Cryptography and Network Security: Principles and Practice</em> (7th ed.). Pearson.[cite: 24]</li>
-            <li>RFC 3526: <em>More Modular Exponential (MODP) Diffie-Hellman groups for Internet Key Exchange (IKE)</em>.[cite: 24]</li>
+            <li>Diffie, W., &amp; Hellman, M. (1976). "New directions in cryptography". <em>IEEE Transactions on Information Theory</em>, 22(6), 644–654.</li>
+            <li>Stallings, W. (2017). <em>Cryptography and Network Security: Principles and Practice</em> (7th ed.). Pearson.</li>
+            <li>RFC 3526: <em>More Modular Exponential (MODP) Diffie-Hellman groups for Internet Key Exchange (IKE)</em>.</li>
           </ul>
         </div>
       </section>
