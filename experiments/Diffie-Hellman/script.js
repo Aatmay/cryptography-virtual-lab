@@ -1,7 +1,7 @@
 /**
- * Diffie-Hellman Simulation Controller
+ * Diffie-Hellman Simulation Controller & Course Manager
  * Notation: P, G, a, b, x, y, ka, kb
- * Supports arbitrary large numbers up to 16+ digits using native BigInt
+ * Supports arbitrary large numbers up to 20 digits using BigInt & 15-base Miller-Rabin
  */
 
 const state = {
@@ -15,7 +15,8 @@ const state = {
   x: null,
   y: null,
   ka: null,
-  kb: null
+  kb: null,
+  unlockedIndex: 0
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -60,11 +61,73 @@ document.addEventListener('DOMContentLoaded', () => {
   const currStepNum = document.getElementById('curr-step-num');
   const btnPrevPage = document.getElementById('btn-prev-page');
   const btnNextPage = document.getElementById('btn-next-page');
+  const stepperCounter = document.getElementById('stepper-counter');
   const sidebarPanel = document.getElementById('sidebar-panel');
 
   const resourceCards = document.querySelectorAll('.resource-card');
   const contentSections = document.querySelectorAll('.content-section');
   const filterPills = document.querySelectorAll('.filter-pill');
+  const completeButtons = document.querySelectorAll('.btn-complete-next');
+  const simCompleteBox = document.getElementById('sim-complete-box');
+  const quizCompleteBox = document.getElementById('quiz-complete-box');
+
+  // --- Course Progression & View Management ---
+  function activateSection(index) {
+    resourceCards.forEach(c => c.classList.remove('active'));
+    contentSections.forEach(s => s.classList.remove('active'));
+
+    const card = resourceCards[index];
+    if (card) {
+      card.classList.add('active');
+      const targetSec = document.getElementById(card.dataset.target);
+      if (targetSec) targetSec.classList.add('active');
+
+      // Stepper counter visibility: ONLY display during Interactive Simulation (index 3)
+      if (stepperCounter) {
+        if (card.dataset.target === 'section-simulation') {
+          stepperCounter.style.display = 'flex';
+        } else {
+          stepperCounter.style.display = 'none';
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  // Ensure stepper is hidden initially because Aim & Objectives is active
+  if (stepperCounter) stepperCounter.style.display = 'none';
+
+  function unlockNextSection(currentIndex) {
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < resourceCards.length) {
+      if (nextIndex > state.unlockedIndex) {
+        state.unlockedIndex = nextIndex;
+      }
+
+      const currBadge = document.getElementById(`badge-${currentIndex}`);
+      if (currBadge) {
+        currBadge.textContent = '✔';
+        currBadge.className = 'res-status-badge done-icon';
+      }
+
+      const nextCard = resourceCards[nextIndex];
+      nextCard.classList.remove('locked');
+      const nextBadge = document.getElementById(`badge-${nextIndex}`);
+      if (nextBadge && nextBadge.textContent === '🔒') {
+        nextBadge.textContent = '';
+      }
+
+      activateSection(nextIndex);
+    }
+  }
+
+  completeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.complete, 10);
+      unlockNextSection(idx);
+    });
+  });
 
   // --- BigInt Modular Exponentiation: (base^exp) % mod ---
   function powerMod(base, exp, mod) {
@@ -80,21 +143,20 @@ document.addEventListener('DOMContentLoaded', () => {
     return res;
   }
 
-  // --- Deterministic Miller-Rabin Primality Test for 64-bit / 16-digit integers ---
+  // --- Miller-Rabin Primality Test for 20-digit Integers ---
+  // Using 15 prime bases guarantees deterministic accuracy for all numbers up to 20 digits (10^20)
   function isPrime(n) {
     n = BigInt(n);
     if (n <= 1n) return false;
     if (n <= 3n) return true;
     if ((n % 2n) === 0n || (n % 3n) === 0n) return false;
 
-    // Fast check for small primes
-    const smallPrimes = [5n, 7n, 11n, 13n, 17n, 19n, 23n, 29n, 31n, 37n];
+    const smallPrimes = [5n, 7n, 11n, 13n, 17n, 19n, 23n, 29n, 31n, 37n, 41n, 43n, 47n];
     for (let p of smallPrimes) {
       if (n === p) return true;
       if (n % p === 0n) return false;
     }
 
-    // Write n - 1 as 2^s * d
     let d = n - 1n;
     let s = 0n;
     while ((d % 2n) === 0n) {
@@ -102,9 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
       s += 1n;
     }
 
-    // Deterministic witness set guaranteed accurate for all integers < 2^64 (up to 19 digits)
-    const bases = [2n, 3n, 5n, 7n, 11n, 13n, 17n, 19n, 23n, 29n, 31n, 37n];
-
+    const bases = [2n, 3n, 5n, 7n, 11n, 13n, 17n, 19n, 23n, 29n, 31n, 37n, 41n, 43n, 47n];
     for (let a of bases) {
       if (n <= a) break;
       let x = powerMod(a, d, n);
@@ -123,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
-  // Helper to safely parse BigInt from input fields
   function parseBigIntInput(val) {
     if (!val) return null;
     const clean = val.toString().trim();
@@ -131,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return BigInt(clean);
   }
 
-  // --- Logging & Narration ---
   function logTrace(text, isGold = false) {
     if (!traceTerminal) return;
     const ph = traceTerminal.querySelector('.trace-ph');
@@ -162,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.speechSynthesis.speak(utterance);
   }
 
-  // --- Parameter Validation ---
   function applyParameters() {
     const pVal = parseBigIntInput(inputP.value);
     const gVal = parseBigIntInput(inputG.value);
@@ -200,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   }
 
-  // --- Step-by-Step Flow Execution ---
   function runStep(stepNumber) {
     state.step = stepNumber;
     if (currStepNum) currStepNum.textContent = stepNumber;
@@ -231,9 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
       state.a = aVal;
       state.b = bVal;
 
-      // Alice generates x = G^a mod P
       state.x = powerMod(state.G, state.a, state.P);
-      // Bob generates y = G^b mod P
       state.y = powerMod(state.G, state.b, state.P);
 
       dispX.textContent = state.x.toString();
@@ -241,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       logTrace(`Alice generated public key: x = G^a mod P = <b>${state.x.toString()}</b>`);
       logTrace(`Bob generated public key: y = G^b mod P = <b>${state.y.toString()}</b>`);
-      speakText("Step 2: Public keys x and y computed via modular exponentiation without precision loss.");
+      speakText("Step 2: Public keys x and y computed via modular exponentiation.");
 
       if (btnNextStep) btnNextStep.textContent = "Step 3: Exchange Generated Keys ➔";
     } else if (stepNumber === 3) {
@@ -278,9 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }, transitTime * 1000);
     } else if (stepNumber === 4) {
-      // Alice derives ka = y^a mod P
       state.ka = powerMod(state.y, state.a, state.P);
-      // Bob derives kb = x^b mod P
       state.kb = powerMod(state.x, state.b, state.P);
 
       const kaStr = state.ka.toString();
@@ -293,8 +345,10 @@ document.addEventListener('DOMContentLoaded', () => {
       logTrace(`Bob computes secret key: k_b = x^b mod P = <b>${kbStr}</b>`);
 
       if (state.ka === state.kb) {
-        logTrace(`Algebraically verified: k_a == k_b == ${kaStr}! Full 16-digit precision matched.`, true);
+        logTrace(`Algebraically verified: k_a == k_b == ${kaStr}! Full 20-digit precision confirmed.`, true);
         speakText("Step 4: Shared secret keys are identical. Key agreement established successfully.");
+
+        if (simCompleteBox) simCompleteBox.style.display = 'flex';
       }
 
       if (btnNextStep) {
@@ -304,7 +358,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- Reset Simulation State ---
   function resetSimulationState() {
     state.step = 1;
     if (currStepNum) currStepNum.textContent = '1';
@@ -328,7 +381,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- Button Listeners ---
   if (btnNextStep) {
     btnNextStep.addEventListener('click', () => {
       if (state.step < 4) runStep(state.step + 1);
@@ -362,37 +414,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Includes verified 2-digit, 9-digit, and realistic 16-digit primes
   if (btnPresetParams) {
     btnPresetParams.addEventListener('click', () => {
       const presets = [
         {
-          // Standard Textbook (2-digit)
+          // 2-digit textbook
           P: "23",
           G: "5",
           a: "6",
           b: "15"
         },
         {
-          // Medium (9-digit prime)
-          P: "100000007",
-          G: "5",
-          a: "1234567",
-          b: "7654321"
-        },
-        {
-          // Large 16-digit Prime Modulus (P = 10^15 + 37)
+          // 16-digit prime
           P: "1000000000000037",
           G: "2",
           a: "654321987654321",
           b: "987654321123456"
         },
         {
-          // Large 16-digit Prime Modulus (P = 10^15 + 91)
-          P: "1000000000000091",
+          // 20-digit Prime (10^19 + 51)
+          P: "10000000000000000051",
+          G: "2",
+          a: "1234567890987654321",
+          b: "9876543210123456789"
+        },
+        {
+          // 20-digit Prime (10^19 + 69)
+          P: "10000000000000000069",
           G: "3",
-          a: "847291038472910",
-          b: "392817462819284"
+          a: "5432167890123456789",
+          b: "8765432109876543210"
         }
       ];
 
@@ -422,9 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnReadAloud) {
     btnReadAloud.addEventListener('click', () => {
       const activeSection = document.querySelector('.content-section.active');
-      if (activeSection) {
-        speakText(activeSection.innerText);
-      }
+      if (activeSection) speakText(activeSection.innerText);
     });
   }
 
@@ -446,27 +495,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnToggleSidebar) {
     btnToggleSidebar.addEventListener('click', () => {
-      if (sidebarPanel.style.display === 'none') {
-        sidebarPanel.style.display = 'flex';
-      } else {
-        sidebarPanel.style.display = 'none';
-      }
+      sidebarPanel.style.display = (sidebarPanel.style.display === 'none') ? 'flex' : 'none';
     });
   }
 
-  // --- Left Sidebar Navigation & Section Toggling ---
-  resourceCards.forEach(card => {
+  // Sidebar navigation click (restricted to unlocked sections)
+  resourceCards.forEach((card, idx) => {
     card.addEventListener('click', () => {
-      resourceCards.forEach(c => c.classList.remove('active'));
-      contentSections.forEach(s => s.classList.remove('active'));
-
-      card.classList.add('active');
-      const targetSection = document.getElementById(card.dataset.target);
-      if (targetSection) targetSection.classList.add('active');
+      if (card.classList.contains('locked')) return;
+      activateSection(idx);
     });
   });
 
-  // --- Filter Pills Functionality (All, Interactive, Theory) ---
   filterPills.forEach(pill => {
     pill.addEventListener('click', () => {
       filterPills.forEach(p => p.classList.remove('active'));
@@ -483,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- Quiz Evaluation & Reset (Test Your Understanding - 5 Questions) ---
+  // Quiz Evaluation & Course Gate
   if (btnSubmitQuiz) {
     btnSubmitQuiz.addEventListener('click', () => {
       const answers = {
@@ -505,6 +545,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
+      const feedback = document.getElementById('quiz-feedback');
+
       if (answeredCount < 5) {
         feedback.textContent = `Please answer all 5 questions before submitting. (${answeredCount}/5 answered)`;
         feedback.className = "status-box error";
@@ -513,16 +555,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let score = 0;
       for (let key in answers) {
-        if (selected[key] === answers[key]) {
-          score++;
-        }
+        if (selected[key] === answers[key]) score++;
       }
 
       if (score === 5) {
-        feedback.textContent = `Score: 5/5 (100%). Outstanding! You have mastered the mathematical and theoretical foundations of the Diffie–Hellman protocol.`;
+        feedback.textContent = `Score: 5/5 (100%). Outstanding! You have mastered the mathematical and theoretical foundations.`;
         feedback.className = "status-box success";
+        if (quizCompleteBox) quizCompleteBox.style.display = 'flex';
       } else {
-        feedback.textContent = `Score: ${score}/5. Review the mathematical proof, primitive root properties, and MitM flow in the Theory section, then try again.`;
+        feedback.textContent = `Score: ${score}/5. A passing score of 5/5 is required to unlock References. Review the Theory and try again.`;
         feedback.className = "status-box error";
       }
     });
@@ -536,6 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
         feedback.textContent = '';
         feedback.className = 'status-box';
       }
+      if (quizCompleteBox) quizCompleteBox.style.display = 'none';
     });
   }
 });

@@ -37,57 +37,63 @@
 
         <div class="resource-cards-list">
           <!-- 1. Aim & Objectives -->
-          <div class="resource-card active" data-target="section-aim" data-category="text">
+          <div class="resource-card active" data-index="0" data-target="section-aim" data-category="text">
             <div class="res-icon">🎯</div>
             <div class="res-info">
               <h5>Aim &amp; Objectives</h5>
               <small>Goals &amp; Outcomes</small>
             </div>
+            <span class="res-status-badge" id="badge-0"></span>
           </div>
 
           <!-- 2. Theory & Formulas -->
-          <div class="resource-card" data-target="section-theory" data-category="text">
+          <div class="resource-card locked" data-index="1" data-target="section-theory" data-category="text">
             <div class="res-icon">📖</div>
             <div class="res-info">
               <h5>Theory &amp; Formulas</h5>
               <small>Alice/Bob Flow &amp; Proof</small>
             </div>
+            <span class="res-status-badge lock-icon" id="badge-1">🔒</span>
           </div>
 
           <!-- 3. Procedure -->
-          <div class="resource-card" data-target="section-procedure" data-category="text">
+          <div class="resource-card locked" data-index="2" data-target="section-procedure" data-category="text">
             <div class="res-icon">📋</div>
             <div class="res-info">
               <h5>Procedure</h5>
               <small>Step-by-step protocol</small>
             </div>
+            <span class="res-status-badge lock-icon" id="badge-2">🔒</span>
           </div>
 
           <!-- 4. Interactive Simulation -->
-          <div class="resource-card" data-target="section-simulation" data-category="interactive">
+          <div class="resource-card locked" data-index="3" data-target="section-simulation" data-category="interactive">
             <div class="res-icon">💻</div>
             <div class="res-info">
               <h5>Interactive Simulation</h5>
               <small>Live key exchange canvas</small>
             </div>
+            <span class="res-status-badge lock-icon" id="badge-3">🔒</span>
           </div>
 
           <!-- 5. Test Your Understanding -->
-          <div class="resource-card" data-target="section-quiz" data-category="interactive">
+          <div class="resource-card locked" data-index="4" data-target="section-quiz" data-category="interactive">
             <div class="res-icon">✍️</div>
             <div class="res-info">
               <h5>Test Your Understanding</h5>
               <small>5 Advanced Theory Questions</small>
             </div>
+            <span class="res-status-badge lock-icon" id="badge-4">🔒</span>
           </div>
 
           <!-- 6. References -->
-          <div class="resource-card" data-target="section-references" data-category="text">
+          <div class="resource-card locked" data-index="5" data-target="section-references" data-category="text">
             <div class="res-icon">📚</div>
             <div class="res-info">
               <h5>References</h5>
               <small>IETF RFCs &amp; Papers</small>
             </div>
+            <span class="res-status-badge lock-icon" id="badge-5">🔒</span>
           </div>
         </div>
       </div>
@@ -119,7 +125,8 @@
 
         <button class="icon-action-btn" id="btn-restart-sim" title="Reset Simulation">🔄</button>
 
-        <div class="stepper-counter">
+        <!-- Only visible during Interactive Simulation -->
+        <div class="stepper-counter" id="stepper-counter">
           <button class="step-arrow" id="btn-prev-page">◀</button>
           <span id="page-indicator">Step <strong id="curr-step-num">1</strong> / 4</span>
           <button class="step-arrow" id="btn-next-page">▶</button>
@@ -142,6 +149,10 @@
             <li>Trace transmission across an eavesdropped public network and verify why an observer cannot compute the private keys or shared secret due to the <strong>Discrete Logarithm Problem (DLP)</strong>.</li>
             <li>Mathematically prove and confirm key agreement equivalence: <code>k_a = k_b = G^(a·b) mod P</code>.</li>
           </ul>
+
+          <div class="course-nav-footer">
+            <button class="btn-complete-next" data-complete="0">Complete &amp; Continue to Theory ➔</button>
+          </div>
         </div>
       </section>
 
@@ -220,6 +231,10 @@
               <div class="proof-final-badge">k<sub>a</sub> = k<sub>b</sub></div>
             </div>
           </div>
+
+          <div class="course-nav-footer">
+            <button class="btn-complete-next" data-complete="1">Complete &amp; Continue to Procedure ➔</button>
+          </div>
         </div>
       </section>
 
@@ -234,6 +249,10 @@
             <li><strong>Key Exchange:</strong> Alice and Bob send their generated keys <strong>x</strong> and <strong>y</strong> over the insecure channel. Alice receives <strong>y</strong>, and Bob receives <strong>x</strong>.</li>
             <li><strong>Secret Key Derivation:</strong> Alice calculates <strong>k<sub>a</sub> = y<sup>a</sup> mod P</strong>. Bob calculates <strong>k<sub>b</sub> = x<sup>b</sup> mod P</strong>. Verify that <strong>k<sub>a</sub> = k<sub>b</sub></strong>.</li>
           </ol>
+
+          <div class="course-nav-footer">
+            <button class="btn-complete-next" data-complete="2">Complete &amp; Launch Simulation ➔</button>
+          </div>
         </div>
       </section>
 
@@ -247,12 +266,12 @@
         <!-- Global Parameters Box -->
         <div class="content-card">
           <h3>1. Public Domain Parameters (Available to All: P, G)</h3>
-          <p class="field-hint">Alice and Bob openly agree on a prime modulus (P) up to 16 digits and generator (G).</p>
+          <p class="field-hint">Alice and Bob openly agree on a prime modulus (P) up to 20 digits and generator (G).</p>
           <div class="form-row">
             <div class="form-group">
               <label for="input-p">Prime Modulus (P):</label>
-              <input type="text" id="input-p" value="23" pattern="[0-9]*" inputmode="numeric" placeholder="e.g. 1000000000000037">
-              <span class="subtext">Must be a prime integer (supports up to 16 digits)</span>
+              <input type="text" id="input-p" value="23" pattern="[0-9]*" inputmode="numeric" placeholder="e.g. 10000000000000000051">
+              <span class="subtext">Must be a prime integer (supports up to 20 digits)</span>
             </div>
             <div class="form-group">
               <label for="input-g">Primitive Root / Generator (G):</label>
@@ -366,6 +385,10 @@
           <div class="trace-terminal" id="trace-terminal">
             <p class="trace-ph">> System initialised. Select parameters or click 'Step 2' to begin the protocol execution.</p>
           </div>
+
+          <div class="course-nav-footer" id="sim-complete-box" style="display: none;">
+            <button class="btn-complete-next" data-complete="3">Simulation Finished: Unlock Assessment ➔</button>
+          </div>
         </div>
       </section>
 
@@ -373,7 +396,7 @@
       <section id="section-quiz" class="content-section">
         <div class="content-card">
           <h2>Test Your Understanding</h2>
-          <p class="field-hint">Answer the advanced conceptual and mathematical questions below to test your rigorous understanding of the protocol.</p>
+          <p class="field-hint">Answer all 5 questions correctly (5/5) to complete the assessment and unlock the references.</p>
           
           <form id="quiz-form">
             <div class="quiz-item" style="margin-bottom: 1.25rem;">
@@ -423,6 +446,10 @@
           </form>
 
           <div id="quiz-feedback" class="status-box"></div>
+
+          <div class="course-nav-footer" id="quiz-complete-box" style="display: none;">
+            <button class="btn-complete-next" data-complete="4">Assessment Passed: View References ➔</button>
+          </div>
         </div>
       </section>
 
@@ -435,6 +462,12 @@
             <li>Stallings, W. (2017). <em>Cryptography and Network Security: Principles and Practice</em> (7th ed.). Pearson.</li>
             <li>RFC 3526: <em>More Modular Exponential (MODP) Diffie-Hellman groups for Internet Key Exchange (IKE)</em>.</li>
           </ul>
+
+          <div class="course-nav-footer">
+            <div style="color: #16a34a; font-weight: 700; font-size: 0.95rem;">
+              🎉 Course Completed! You have satisfied all objectives and assessments for this experiment.
+            </div>
+          </div>
         </div>
       </section>
 

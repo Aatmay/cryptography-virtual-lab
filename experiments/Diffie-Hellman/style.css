@@ -617,3 +617,67 @@
     font-size: 0.76rem;
     color: var(--theme-text-muted);
   }
+  /* Progressive Course Lock / Completion States */
+.resource-card.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: #f5f2f0;
+  pointer-events: none;
+}
+
+.resource-card.locked:hover {
+  background: #f5f2f0;
+}
+
+.res-status-badge {
+  margin-left: auto;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.res-status-badge.lock-icon {
+  color: #a8a29e;
+}
+
+.res-status-badge.done-icon {
+  color: #16a34a;
+}
+
+/* Course Navigation Footer Button */
+.course-nav-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--theme-border);
+}
+
+.btn-complete-next {
+  background: var(--theme-primary);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.btn-complete-next:hover {
+  background: var(--theme-primary-hover);
+}
+/* Stepper Counter - default hidden outside simulation */
+.stepper-counter {
+  display: none; /* Managed dynamically by script.js based on active section */
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  background: #f1edea;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
