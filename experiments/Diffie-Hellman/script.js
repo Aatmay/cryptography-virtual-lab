@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetSec = document.getElementById(card.dataset.target);
       if (targetSec) targetSec.classList.add('active');
 
-      // Stepper counter visibility: ONLY display during Interactive Simulation (index 3)
+      // Stepper counter visibility: ONLY display during Interactive Simulation
       if (stepperCounter) {
         if (card.dataset.target === 'section-simulation') {
           stepperCounter.style.display = 'flex';
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Ensure stepper is hidden initially because Aim & Objectives is active
+  // Ensure stepper is hidden initially on Aim & Objectives
   if (stepperCounter) stepperCounter.style.display = 'none';
 
   function unlockNextSection(currentIndex) {
@@ -105,17 +105,23 @@ document.addEventListener('DOMContentLoaded', () => {
         state.unlockedIndex = nextIndex;
       }
 
+      // Mark current section completed with green SVG checkmark
       const currBadge = document.getElementById(`badge-${currentIndex}`);
       if (currBadge) {
-        currBadge.textContent = '✔';
+        currBadge.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        `;
         currBadge.className = 'res-status-badge done-icon';
       }
 
+      // Unlock next section card
       const nextCard = resourceCards[nextIndex];
       nextCard.classList.remove('locked');
       const nextBadge = document.getElementById(`badge-${nextIndex}`);
-      if (nextBadge && nextBadge.textContent === '🔒') {
-        nextBadge.textContent = '';
+      if (nextBadge) {
+        nextBadge.innerHTML = '';
       }
 
       activateSection(nextIndex);
@@ -144,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Miller-Rabin Primality Test for 20-digit Integers ---
-  // Using 15 prime bases guarantees deterministic accuracy for all numbers up to 20 digits (10^20)
   function isPrime(n) {
     n = BigInt(n);
     if (n <= 1n) return false;
@@ -499,7 +504,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Sidebar navigation click (restricted to unlocked sections)
   resourceCards.forEach((card, idx) => {
     card.addEventListener('click', () => {
       if (card.classList.contains('locked')) return;
@@ -523,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Quiz Evaluation & Course Gate
+  // Quiz Evaluation & Course Gate (80% passing criteria = 4/5)
   if (btnSubmitQuiz) {
     btnSubmitQuiz.addEventListener('click', () => {
       const answers = {
@@ -558,13 +562,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selected[key] === answers[key]) score++;
       }
 
-      if (score === 5) {
-        feedback.textContent = `Score: 5/5 (100%). Outstanding! You have mastered the mathematical and theoretical foundations.`;
+      const percentage = (score / 5) * 100;
+
+      if (percentage >= 80) {
+        feedback.textContent = `Score: ${score}/5 (${percentage}%). Passed! You have successfully cleared the threshold to unlock the References section.`;
         feedback.className = "status-box success";
         if (quizCompleteBox) quizCompleteBox.style.display = 'flex';
       } else {
-        feedback.textContent = `Score: ${score}/5. A passing score of 5/5 is required to unlock References. Review the Theory and try again.`;
+        feedback.textContent = `Score: ${score}/5 (${percentage}%). Passing criteria is 80% (minimum 4/5). Please review the Theory and try again.`;
         feedback.className = "status-box error";
+        if (quizCompleteBox) quizCompleteBox.style.display = 'none';
       }
     });
   }

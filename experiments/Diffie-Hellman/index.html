@@ -22,7 +22,7 @@
   <!-- Main Laboratory Workspace -->
   <div class="workspace-layout">
 
-    <!-- LEFT COLUMN: Navigation Sidebar -->
+    <!-- LEFT COLUMN: Dark Navigation Sidebar -->
     <aside class="sidebar-resources" id="sidebar-panel">
       <div class="filter-pill-bar">
         <button class="filter-pill active" data-filter="all">All</button>
@@ -38,7 +38,14 @@
         <div class="resource-cards-list">
           <!-- 1. Aim & Objectives -->
           <div class="resource-card active" data-index="0" data-target="section-aim" data-category="text">
-            <div class="res-icon">🎯</div>
+            <div class="res-icon">
+              <!-- Target / Bullseye Icon -->
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            </div>
             <div class="res-info">
               <h5>Aim &amp; Objectives</h5>
               <small>Goals &amp; Outcomes</small>
@@ -48,52 +55,112 @@
 
           <!-- 2. Theory & Formulas -->
           <div class="resource-card locked" data-index="1" data-target="section-theory" data-category="text">
-            <div class="res-icon">📖</div>
+            <div class="res-icon">
+              <!-- Book / Open Book Icon -->
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </div>
             <div class="res-info">
               <h5>Theory &amp; Formulas</h5>
               <small>Alice/Bob Flow &amp; Proof</small>
             </div>
-            <span class="res-status-badge lock-icon" id="badge-1">🔒</span>
+            <span class="res-status-badge lock-icon" id="badge-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
           </div>
 
           <!-- 3. Procedure -->
           <div class="resource-card locked" data-index="2" data-target="section-procedure" data-category="text">
-            <div class="res-icon">📋</div>
+            <div class="res-icon">
+              <!-- Clipboard / Steps Icon -->
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                <path d="M9 12h6"></path>
+                <path d="M9 16h6"></path>
+              </svg>
+            </div>
             <div class="res-info">
               <h5>Procedure</h5>
               <small>Step-by-step protocol</small>
             </div>
-            <span class="res-status-badge lock-icon" id="badge-2">🔒</span>
+            <span class="res-status-badge lock-icon" id="badge-2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
           </div>
 
           <!-- 4. Interactive Simulation -->
           <div class="resource-card locked" data-index="3" data-target="section-simulation" data-category="interactive">
-            <div class="res-icon">💻</div>
+            <div class="res-icon">
+              <!-- Terminal / Simulation Monitor Icon -->
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+                <line x1="6" y1="8" x2="10" y2="8"></line>
+                <line x1="6" y1="12" x2="14" y2="12"></line>
+              </svg>
+            </div>
             <div class="res-info">
               <h5>Interactive Simulation</h5>
               <small>Live key exchange canvas</small>
             </div>
-            <span class="res-status-badge lock-icon" id="badge-3">🔒</span>
+            <span class="res-status-badge lock-icon" id="badge-3">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
           </div>
 
           <!-- 5. Test Your Understanding -->
           <div class="resource-card locked" data-index="4" data-target="section-quiz" data-category="interactive">
-            <div class="res-icon">✍️</div>
+            <div class="res-icon">
+              <!-- Edit / Quiz Feather Icon -->
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </div>
             <div class="res-info">
               <h5>Test Your Understanding</h5>
               <small>5 Advanced Theory Questions</small>
             </div>
-            <span class="res-status-badge lock-icon" id="badge-4">🔒</span>
+            <span class="res-status-badge lock-icon" id="badge-4">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
           </div>
 
           <!-- 6. References -->
           <div class="resource-card locked" data-index="5" data-target="section-references" data-category="text">
-            <div class="res-icon">📚</div>
+            <div class="res-icon">
+              <!-- Library / Bookmark Icon -->
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              </svg>
+            </div>
             <div class="res-info">
               <h5>References</h5>
               <small>IETF RFCs &amp; Papers</small>
             </div>
-            <span class="res-status-badge lock-icon" id="badge-5">🔒</span>
+            <span class="res-status-badge lock-icon" id="badge-5">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
           </div>
         </div>
       </div>
@@ -125,7 +192,7 @@
 
         <button class="icon-action-btn" id="btn-restart-sim" title="Reset Simulation">🔄</button>
 
-        <!-- Only visible during Interactive Simulation -->
+        <!-- Stepper visible strictly inside the Interactive Simulation module -->
         <div class="stepper-counter" id="stepper-counter">
           <button class="step-arrow" id="btn-prev-page">◀</button>
           <span id="page-indicator">Step <strong id="curr-step-num">1</strong> / 4</span>
@@ -396,7 +463,7 @@
       <section id="section-quiz" class="content-section">
         <div class="content-card">
           <h2>Test Your Understanding</h2>
-          <p class="field-hint">Answer all 5 questions correctly (5/5) to complete the assessment and unlock the references.</p>
+          <p class="field-hint">Answer at least 4 out of 5 questions correctly (80% passing grade) to complete the assessment and unlock the references.</p>
           
           <form id="quiz-form">
             <div class="quiz-item" style="margin-bottom: 1.25rem;">
@@ -465,7 +532,7 @@
 
           <div class="course-nav-footer">
             <div style="color: #16a34a; font-weight: 700; font-size: 0.95rem;">
-              🎉 Virtual Lab Completed! You have satisfied all objectives and assessments for this experiment.
+              🎉 Course Completed! You have satisfied all objectives and assessments for this experiment.
             </div>
           </div>
         </div>
